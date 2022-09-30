@@ -5,3 +5,8 @@
   align-items: center;
   justify-content: center;
 }
+
+#image-slider {
+  width: 500px;
+  height: 500px;
+}
