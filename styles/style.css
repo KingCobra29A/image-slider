@@ -13,10 +13,12 @@
 #image-slider {
   width: 500px;
   height: 500px;
+
+  position: relative;
 }
 
 .arrow {
-  position: relative;
+  position: absolute;
   top: 50%;
   height: var(--arrow-sizing);
   width: var(--arrow-sizing);
@@ -33,6 +35,41 @@
 
 .arrow-right {
   top: 50%;
-  left: calc(100% - 2 * var(--arrow-sizing));
+  right: 0%;
   transform: rotate(180deg);
+}
+
+.bubble-wrapper {
+  max-width: 500px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.bubble {
+  height: var(--arrow-sizing);
+  width: var(--arrow-sizing);
+  opacity: 30%;
+}
+
+.bubble:hover {
+  opacity: 70%;
+}
+
+.square {
+  width: 500px;
+  height: 500px;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.blue {
+  background-color: blue;
 }

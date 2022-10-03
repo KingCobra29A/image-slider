@@ -1,6 +1,18 @@
 const imageSlider = () => {
   let currentIndex = 0;
-  let images = [];
+
+  const makeBlankSquare = (color) => {
+    const square = document.createElement("div");
+    square.classList.add("square");
+    square.classList.add(color);
+    return square;
+  };
+
+  let images = [
+    makeBlankSquare("red"),
+    makeBlankSquare("green"),
+    makeBlankSquare("blue"),
+  ];
   let dimensionWidth;
   let dimensionHeight;
   const svgCircle = "./../assets/noun-circle-5147182.svg";
@@ -25,22 +37,44 @@ const imageSlider = () => {
     const rightArrow = document.createElement("img");
     leftArrow.src = svgArrow;
     leftArrow.classList.add(...["arrow", "arrow-left"]);
+    leftArrow.addEventListener("click", slideLeft);
     rightArrow.src = svgArrow;
     rightArrow.classList.add(...["arrow", "arrow-right"]);
+    rightArrow.addEventListener("click", slideRight);
 
     container.appendChild(leftArrow);
     container.appendChild(rightArrow);
   };
 
-  const navigateToIndex = () => {};
-
   //returns a dom element
   //specifically, "bubbles" to navigate to specific pictures
-  const navigationBubbles = () => {};
+  const navigationBubbles = (container) => {
+    const navigateToIndex = () => {};
+
+    const bubbleFactory = (index) => {
+      const element = document.createElement("img");
+      element.src = svgCircle;
+      element.classList.add("bubble");
+      element.addEventListener("click", () => navigateToIndex(index));
+      return {
+        element,
+        index,
+      };
+    };
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("bubble-wrapper");
+    for (let i = 0; i < images.length; i += 1) {
+      wrapper.appendChild(bubbleFactory(i).element);
+    }
+    container.appendChild(wrapper);
+  };
 
   //returns dom elements
   //specifically, all of the controll related elements (arrows, bubbles)
-  const createControls = () => {};
+  const createControls = (container) => {
+    leftRightArrows(container);
+    navigationBubbles(container);
+  };
 
   //returns a dom element
   //specifically, the wrapper element that will slide left/right
@@ -50,7 +84,7 @@ const imageSlider = () => {
     dimensionWidth = container.clientWidth;
     dimensionHeight = container.clientHeight;
     container.classList.add("image-slider-frame");
-    leftRightArrows(container);
+    createControls(container);
   };
 
   const addImage = (image, description) => {};
