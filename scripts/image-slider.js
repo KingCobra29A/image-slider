@@ -3,6 +3,8 @@ const imageSlider = () => {
   let images = [];
   let dimensionWidth;
   let dimensionHeight;
+  const svgCircle = "./../assets/noun-circle-5147182.svg";
+  const svgArrow = "./../assets/noun-left-1920907.svg";
 
   //factory for image objects
   const Image = (source, description) => {
@@ -18,7 +20,17 @@ const imageSlider = () => {
 
   //returns a dom element
   //specifically, arrows to navigate left/right through pictures
-  const leftRightArrows = () => {};
+  const leftRightArrows = (container) => {
+    const leftArrow = document.createElement("img");
+    const rightArrow = document.createElement("img");
+    leftArrow.src = svgArrow;
+    leftArrow.classList.add(...["arrow", "arrow-left"]);
+    rightArrow.src = svgArrow;
+    rightArrow.classList.add(...["arrow", "arrow-right"]);
+
+    container.appendChild(leftArrow);
+    container.appendChild(rightArrow);
+  };
 
   const navigateToIndex = () => {};
 
@@ -38,6 +50,7 @@ const imageSlider = () => {
     dimensionWidth = container.clientWidth;
     dimensionHeight = container.clientHeight;
     container.classList.add("image-slider-frame");
+    leftRightArrows(container);
   };
 
   const addImage = (image, description) => {};

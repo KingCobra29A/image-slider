@@ -1,3 +1,7 @@
+:root {
+  --arrow-sizing: 20px;
+}
+
 .content-wrapper {
   width: 100vw;
   height: 100vh;
@@ -9,4 +13,26 @@
 #image-slider {
   width: 500px;
   height: 500px;
+}
+
+.arrow {
+  position: relative;
+  top: 50%;
+  height: var(--arrow-sizing);
+  width: var(--arrow-sizing);
+  opacity: 30%;
+  cursor: pointer;
+}
+
+.arrow:hover {
+  opacity: 70%;
+}
+
+.arrow-left {
+}
+
+.arrow-right {
+  top: 50%;
+  left: calc(100% - 2 * var(--arrow-sizing));
+  transform: rotate(180deg);
 }
