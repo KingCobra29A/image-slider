@@ -1,5 +1,7 @@
 const imageSlider = () => {
   let currentIndex = 0;
+  let currentBubble;
+  let imageContainer;
 
   const makeBlankSquare = (color) => {
     const square = document.createElement("div");
@@ -26,9 +28,28 @@ const imageSlider = () => {
     };
   };
 
-  const slideLeft = () => {};
+  const setTransform = (index) => {
+    imageContainer.style.transform =
+      "translateX(-" + index * dimensionWidth + "px)";
+  };
 
-  const slideRight = () => {};
+  const slide = () => {
+    setTransform(currentIndex);
+    currentBubble.classList.remove("bubble-active");
+    currentBubble = document.getElementById("bubble" + currentIndex);
+    currentBubble.classList.add("bubble-active");
+  };
+
+  const slideLeft = () => {
+    currentIndex = currentIndex - 1 < 0 ? images.length - 1 : currentIndex - 1;
+    console.log(currentIndex);
+    slide();
+  };
+
+  const slideRight = () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    slide();
+  };
 
   //returns a dom element
   //specifically, arrows to navigate left/right through pictures
@@ -49,22 +70,35 @@ const imageSlider = () => {
   //returns a dom element
   //specifically, "bubbles" to navigate to specific pictures
   const navigationBubbles = (container) => {
-    const navigateToIndex = () => {};
-
-    const bubbleFactory = (index) => {
+    const bubbleFactory = (indexIn) => {
       const element = document.createElement("img");
+      const index = indexIn;
+
+      //callback used when a bubble is clicked
+      //navigates to that specific index of image
+      const navigateToIndex = (e) => {
+        setTransform(index);
+        currentBubble.classList.remove("bubble-active");
+        element.classList.add("bubble-active");
+        currentBubble = element;
+        currentIndex = index;
+      };
+
+      if (indexIn === 0) {
+        element.classList.add("bubble-active");
+        currentBubble = element;
+      }
+
       element.src = svgCircle;
       element.classList.add("bubble");
-      element.addEventListener("click", () => navigateToIndex(index));
-      return {
-        element,
-        index,
-      };
+      element.id = "bubble" + index;
+      element.addEventListener("click", (e) => navigateToIndex(e));
+      return element;
     };
     const wrapper = document.createElement("div");
     wrapper.classList.add("bubble-wrapper");
     for (let i = 0; i < images.length; i += 1) {
-      wrapper.appendChild(bubbleFactory(i).element);
+      wrapper.appendChild(bubbleFactory(i));
     }
     container.appendChild(wrapper);
   };
@@ -80,11 +114,22 @@ const imageSlider = () => {
   //specifically, the wrapper element that will slide left/right
   const createWrapper = () => {};
 
+  const dummyDisplayImages = (container) => {
+    const imageContainer = document.createElement("span");
+    imageContainer.classList.add("image-container");
+    for (let i = 0; i < images.length; i += 1) {
+      imageContainer.appendChild(images[i]);
+    }
+    container.appendChild(imageContainer);
+  };
+
   const init = (container) => {
     dimensionWidth = container.clientWidth;
     dimensionHeight = container.clientHeight;
     container.classList.add("image-slider-frame");
     createControls(container);
+    dummyDisplayImages(container);
+    imageContainer = document.querySelector(".image-container");
   };
 
   const addImage = (image, description) => {};

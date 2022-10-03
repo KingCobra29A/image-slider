@@ -15,6 +15,18 @@
   height: 500px;
 
   position: relative;
+  overflow: hidden;
+}
+
+.image-container {
+  display: flex;
+  z-index: -1;
+  position: relative;
+  transition: transform 600ms ease-in-out;
+}
+
+.square {
+  flex-shrink: 0;
 }
 
 .arrow {
@@ -51,6 +63,11 @@
   height: var(--arrow-sizing);
   width: var(--arrow-sizing);
   opacity: 30%;
+  cursor: pointer;
+}
+
+.bubble-active {
+  opacity: 70%;
 }
 
 .bubble:hover {
