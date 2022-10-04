@@ -1,5 +1,7 @@
 :root {
   --arrow-sizing: 20px;
+  --slide-container-width: 0px;
+  --slide-container-height: 0px;
 }
 
 .content-wrapper {
@@ -19,14 +21,11 @@
 }
 
 .image-container {
+  height: 100%;
   display: flex;
   z-index: -1;
   position: relative;
   transition: transform 600ms ease-in-out;
-}
-
-.square {
-  flex-shrink: 0;
 }
 
 .arrow {
@@ -74,19 +73,14 @@
   opacity: 70%;
 }
 
-.square {
-  width: 500px;
-  height: 500px;
+.image-wrapper {
+  width: var(--slide-container-width);
+  height: var(--slide-container-height);
+  display: flex;
 }
 
-.red {
-  background-color: red;
-}
-
-.green {
-  background-color: green;
-}
-
-.blue {
-  background-color: blue;
+.slider-image {
+  max-width: var(--slide-container-width);
+  max-height: var(--slide-container-height);
+  object-fit: scale-down;
 }

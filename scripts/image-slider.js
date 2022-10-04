@@ -1,7 +1,7 @@
 const imageSlider = () => {
   let currentIndex = 0;
   let currentBubble;
-  let imageContainer;
+  let slidingContainer;
 
   const makeBlankSquare = (color) => {
     const square = document.createElement("div");
@@ -10,11 +10,7 @@ const imageSlider = () => {
     return square;
   };
 
-  let images = [
-    makeBlankSquare("red"),
-    makeBlankSquare("green"),
-    makeBlankSquare("blue"),
-  ];
+  let images = [];
   let dimensionWidth;
   let dimensionHeight;
   const svgCircle = "./../assets/noun-circle-5147182.svg";
@@ -29,7 +25,7 @@ const imageSlider = () => {
   };
 
   const setTransform = (index) => {
-    imageContainer.style.transform =
+    slidingContainer.style.transform =
       "translateX(-" + index * dimensionWidth + "px)";
   };
 
@@ -42,7 +38,6 @@ const imageSlider = () => {
 
   const slideLeft = () => {
     currentIndex = currentIndex - 1 < 0 ? images.length - 1 : currentIndex - 1;
-    console.log(currentIndex);
     slide();
   };
 
@@ -110,29 +105,42 @@ const imageSlider = () => {
     navigationBubbles(container);
   };
 
-  //returns a dom element
-  //specifically, the wrapper element that will slide left/right
-  const createWrapper = () => {};
+  //
+  //
+  const wrapImage = (image) => {
+    let imageWrapper = document.createElement("div");
+    let imageElement = document.createElement("img");
+    imageWrapper.classList.add("image-wrapper");
+    imageElement.src = image.source;
+    imageElement.classList.add("slider-image");
+    imageWrapper.appendChild(imageElement);
+    return imageWrapper;
+  };
 
-  const dummyDisplayImages = (container) => {
-    const imageContainer = document.createElement("span");
-    imageContainer.classList.add("image-container");
+  const DisplayImages = (container) => {
+    const slidingContainer = document.createElement("span");
+    slidingContainer.classList.add("image-container");
     for (let i = 0; i < images.length; i += 1) {
-      imageContainer.appendChild(images[i]);
+      slidingContainer.appendChild(wrapImage(images[i]));
     }
-    container.appendChild(imageContainer);
+    container.appendChild(slidingContainer);
   };
 
   const init = (container) => {
+    let root = document.documentElement;
     dimensionWidth = container.clientWidth;
     dimensionHeight = container.clientHeight;
+    root.style.setProperty("--slide-container-width", dimensionWidth + "px");
+    root.style.setProperty("--slide-container-height", dimensionHeight + "px");
     container.classList.add("image-slider-frame");
     createControls(container);
-    dummyDisplayImages(container);
-    imageContainer = document.querySelector(".image-container");
+    DisplayImages(container);
+    slidingContainer = document.querySelector(".image-container");
   };
 
-  const addImage = (image, description) => {};
+  const addImage = (imageSrc, description) => {
+    images.push(Image(imageSrc, description));
+  };
 
   return {
     init,
@@ -142,4 +150,14 @@ const imageSlider = () => {
 
 const containerdiv = document.getElementById("image-slider");
 const slider = imageSlider();
+let source1 = "./../assets/testImages/istockphoto-175422366-612x612.jpg";
+let source2 =
+  "./../assets/testImages/lbrevirostris_rcb1282_stack1_20190423-dsc_1936.jpg";
+let source3 =
+  "./../assets/testImages/red-eyed-tree-frog-square-1.jpg.optimal.jpg";
+let source4 = "./../assets/testImages/ww-frogs-long-nosed-horn_16x9.jpg";
+slider.addImage(source1, "a frog");
+slider.addImage(source2, "a frog");
+slider.addImage(source3, "a frog");
+slider.addImage(source4, "a frog");
 slider.init(containerdiv);
