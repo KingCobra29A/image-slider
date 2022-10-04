@@ -1,6 +1,7 @@
 const imageSlider = () => {
   let currentIndex = 0;
   let currentBubble;
+  let frame;
   let slidingContainer;
 
   const makeBlankSquare = (color) => {
@@ -112,6 +113,7 @@ const imageSlider = () => {
     let imageElement = document.createElement("img");
     imageWrapper.classList.add("image-wrapper");
     imageElement.src = image.source;
+    imageElement.alt = image.description;
     imageElement.classList.add("slider-image");
     imageWrapper.appendChild(imageElement);
     return imageWrapper;
@@ -126,12 +128,18 @@ const imageSlider = () => {
     container.appendChild(slidingContainer);
   };
 
-  const init = (container) => {
+  const resize = () => {
     let root = document.documentElement;
-    dimensionWidth = container.clientWidth;
-    dimensionHeight = container.clientHeight;
+    dimensionWidth = frame.clientWidth;
+    dimensionHeight = frame.clientHeight;
     root.style.setProperty("--slide-container-width", dimensionWidth + "px");
     root.style.setProperty("--slide-container-height", dimensionHeight + "px");
+  };
+
+  const init = (container) => {
+    frame = container;
+    resize();
+    addEventListener("resize", resize);
     container.classList.add("image-slider-frame");
     createControls(container);
     DisplayImages(container);
